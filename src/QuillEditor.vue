@@ -21,11 +21,32 @@
       ref="contextMenu"
       class="context-menu"
       :style="{
-        top: contextMenuY,
-        left: contextMenuX,
+        top:
+          screenType === 'mobile'
+            ? contextMenuY + 80 + 'px'
+            : screenType === 'tablet'
+            ? contextMenuY + 150 + 'px'
+            : screenType === 'laptop'
+            ? contextMenuY + 500 + 'px'
+            : contextMenuY + 400 + 'px',
+        left:
+          screenType === 'mobile'
+            ? contextMenuX + 80 + 'px'
+            : screenType === 'tablet'
+            ? contextMenuX + 150 + 'px'
+            : screenType === 'laptop'
+            ? contextMenuX + 100 + 'px'
+            : contextMenuX + 'px',
         position: 'fixed',
         zIndex: 9999,
       }"
+      style="
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        list-style: none;
+        list-style-type: none;
+      "
     >
       <li class="cursor-pointer" @click.prevent="mergeCells">Merge Cells</li>
       <li class="cursor-pointer" @click.prevent="deleteRow">Delete Row</li>
@@ -665,26 +686,22 @@ td:hover {
 }
 
 .context-menu {
-  position: absolute !important;
-  z-index: 1000 !important;
-  padding: 0 !important;
-  border: 1px solid #ccc !important;
-  margin: 0 !important;
-  background: white !important;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 10%) !important;
-  font-size: 12px !important;
-  inline-size: 160px !important;
-  list-style: none !important;
-}
-.context-menu ul {
-  list-style-type: none !important;
+  position: absolute;
+  z-index: 1000;
+  padding: 0;
+  border: 1px solid #ccc;
+  margin: 0;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 10%);
+  font-size: 12px;
+  inline-size: 160px;
+  list-style: none;
 }
 
 .context-menu li {
   padding: 10px;
   cursor: pointer;
   text-align: start;
-  list-style: none;
 }
 
 .context-menu li:hover {

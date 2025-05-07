@@ -1,29 +1,29 @@
-import { ref as u, onMounted as S, onUnmounted as J, createElementBlock as Z, openBlock as ee, createElementVNode as b, withDirectives as z, withModifiers as h, vShow as V, normalizeStyle as te } from "vue";
+import { ref as p, onMounted as D, onUnmounted as J, createElementBlock as Z, openBlock as ee, createElementVNode as v, withDirectives as z, withModifiers as h, vShow as V, normalizeStyle as te } from "vue";
 import ne from "quill";
-const le = (v, C) => {
-  const g = v.__vccOpts || v;
-  for (const [E, f] of C)
-    g[E] = f;
-  return g;
+const le = (f, w) => {
+  const x = f.__vccOpts || f;
+  for (const [k, d] of w)
+    x[k] = d;
+  return x;
 }, oe = { class: "editor-container" }, re = {
   __name: "QuillEditor",
   props: ["modelValue", "Placeholder"],
   emits: ["update:modelValue"],
-  setup(v, { emit: C }) {
-    const g = v, E = C, f = u("desktop"), A = () => {
+  setup(f, { emit: w }) {
+    const x = f, k = w, d = p("desktop"), q = () => {
       const e = window.innerWidth;
-      e < 600 ? f.value = "mobile" : e >= 600 && e < 1024 ? f.value = "tablet" : e >= 1024 && e < 1440 ? f.value = "laptop" : f.value = "desktop";
+      e < 600 ? d.value = "mobile" : e >= 600 && e < 1024 ? d.value = "tablet" : e >= 1024 && e < 1440 ? d.value = "laptop" : d.value = "desktop";
     };
-    S(() => {
-      A(), window.addEventListener("resize", A);
+    D(() => {
+      q(), window.addEventListener("resize", q);
     });
-    const w = u(null), k = u(null), X = u(null);
-    let i;
-    const L = u(0), T = u(!1), a = u(null), x = u(!1), D = u(0), q = u(0);
-    S(() => {
-      i = new ne(w.value, {
+    const L = p(null), T = p(null), X = p(null);
+    let a;
+    const M = p(0), S = p(!1), i = p(null), E = p(!1), g = p(0), y = p(0);
+    D(() => {
+      a = new ne(L.value, {
         theme: "snow",
-        placeholder: g.Placeholder,
+        placeholder: x.Placeholder,
         modules: {
           toolbar: [
             [{ size: [] }],
@@ -43,11 +43,11 @@ const le = (v, C) => {
           ]
         }
       });
-      const e = i.getModule("toolbar").container, t = document.createElement("button");
+      const e = a.getModule("toolbar").container, t = document.createElement("button");
       t.title = "Insert Table", t.innerHTML = "&#9016;", t.classList.add("ql-insertTable"), t.onclick = (r) => {
         r.preventDefault();
-        const y = i.getSelection();
-        H(0, L, y);
+        const C = a.getSelection();
+        H(0, M, C);
       }, e.appendChild(t);
       const n = document.createElement("button");
       n.title = "Delete Last Row", n.innerHTML = "&#7035;", n.onclick = (r) => {
@@ -56,8 +56,8 @@ const le = (v, C) => {
       const l = document.createElement("button");
       l.title = "Delete Last Column", l.innerHTML = "&#9030;", l.onclick = (r) => {
         r.preventDefault(), F();
-      }, e.appendChild(l), i.root.innerHTML = g.modelValue || "", i.on("text-change", () => {
-        E("update:modelValue", i.root.innerHTML), M();
+      }, e.appendChild(l), a.root.innerHTML = x.modelValue || "", a.on("text-change", () => {
+        k("update:modelValue", a.root.innerHTML), A();
       });
       const o = document.createElement("button");
       o.title = "Merge Cells", o.innerHTML = "←→", o.onclick = (r) => {
@@ -71,18 +71,18 @@ const le = (v, C) => {
       s.title = "Insert Column Left", s.innerHTML = "←", s.onclick = (r) => {
         r.preventDefault(), _();
       }, e.appendChild(s);
-      const d = document.createElement("button");
-      d.title = "Insert Column Right", d.innerHTML = "→", d.onclick = (r) => {
+      const u = document.createElement("button");
+      u.title = "Insert Column Right", u.innerHTML = "→", u.onclick = (r) => {
         r.preventDefault(), I();
-      }, e.appendChild(d);
-      const p = document.createElement("button");
-      p.title = "Delete Column", p.innerHTML = "&#1154;", p.onclick = (r) => {
-        r.preventDefault(), R();
-      }, e.appendChild(p);
+      }, e.appendChild(u);
       const m = document.createElement("button");
-      m.title = "Delete Table", m.innerHTML = "🗑️", m.onclick = (r) => {
+      m.title = "Delete Column", m.innerHTML = "&#1154;", m.onclick = (r) => {
+        r.preventDefault(), R();
+      }, e.appendChild(m);
+      const b = document.createElement("button");
+      b.title = "Delete Table", b.innerHTML = "🗑️", b.onclick = (r) => {
         r.preventDefault(), U();
-      }, e.appendChild(m), i.root.addEventListener("keydown", G), i.root.addEventListener("click", O), i.root.addEventListener("contextmenu", W), M();
+      }, e.appendChild(b), a.root.addEventListener("keydown", G), a.root.addEventListener("click", O), a.root.addEventListener("contextmenu", W), A();
     });
     const P = (e = 2, t = 2) => new Promise((n, l) => {
       const o = document.createElement("div");
@@ -144,29 +144,29 @@ const le = (v, C) => {
       </div>
     `, o.appendChild(c), document.body.appendChild(o);
       const s = () => {
-        document.body.removeChild(o), c.removeEventListener("keydown", m);
-      }, d = () => {
+        document.body.removeChild(o), c.removeEventListener("keydown", b);
+      }, u = () => {
         s(), l("Modal closed or cancelled.");
-      }, p = () => {
-        const r = parseInt(document.getElementById("table-rows").value, 10), y = parseInt(document.getElementById("table-cols").value, 10);
-        if (isNaN(r) || isNaN(y) || r <= 0 || y <= 0) {
+      }, m = () => {
+        const r = parseInt(document.getElementById("table-rows").value, 10), C = parseInt(document.getElementById("table-cols").value, 10);
+        if (isNaN(r) || isNaN(C) || r <= 0 || C <= 0) {
           alert("Please enter valid numbers.");
           return;
         }
-        s(), n({ rows: r, columns: y });
+        s(), n({ rows: r, columns: C });
       };
-      o.querySelector("#close-btn").onclick = d, o.querySelector("#cancel-btn").onclick = d, o.querySelector("#confirm-btn").onclick = p, o.onclick = (r) => {
-        r.target === o && d();
+      o.querySelector("#close-btn").onclick = u, o.querySelector("#cancel-btn").onclick = u, o.querySelector("#confirm-btn").onclick = m, o.onclick = (r) => {
+        r.target === o && u();
       }, setTimeout(() => c.focus(), 0);
-      const m = (r) => {
-        r.key === "Enter" && (r.preventDefault(), p());
+      const b = (r) => {
+        r.key === "Enter" && (r.preventDefault(), m());
       };
-      c.addEventListener("keydown", m);
+      c.addEventListener("keydown", b);
     }), H = async (e, t, n = null) => {
       const l = typeof t == "object" && "value" in t ? t.value : t;
       try {
         const o = await P(2, l || 2), c = Q(o.rows, o.columns);
-        $(c, n), M(), L.value = o.columns;
+        $(c, n), A(), M.value = o.columns;
       } catch (o) {
         console.log("Modal closed:", o);
       }
@@ -185,10 +185,10 @@ const le = (v, C) => {
     }, $ = (e, t) => {
       const n = document.createElement("div");
       n.appendChild(e);
-      const l = n.innerHTML, o = t ? t.index : i.getLength();
-      i.clipboard.dangerouslyPasteHTML(o, l);
-    }, M = () => {
-      w.value.querySelectorAll("table").forEach((t) => {
+      const l = n.innerHTML, o = t ? t.index : a.getLength();
+      a.clipboard.dangerouslyPasteHTML(o, l);
+    }, A = () => {
+      L.value.querySelectorAll("table").forEach((t) => {
         t.style.width = "100%", t.style.borderCollapse = "collapse", t.style.margin = "10px 0", t.querySelectorAll("td, th").forEach((l) => {
           l.style.border = "1px solid #aaa", l.style.padding = "6px", l.style.textAlign = "center", l.style.position = "relative", l.style.cursor = "text", j(l);
         });
@@ -214,60 +214,60 @@ const le = (v, C) => {
     function O(e) {
       const t = e.target.closest("td");
       if (t) {
-        a.value = t, T.value = !0;
+        i.value = t, S.value = !0;
         const n = t.getBoundingClientRect(), l = 10;
-        k.value.style.top = `${n.top + window.scrollY - l}px`, k.value.style.left = `${n.left + window.scrollX + l}px`;
+        T.value.style.top = `${n.top + window.scrollY - l}px`, T.value.style.left = `${n.left + window.scrollX + l}px`;
       } else
-        T.value = !1;
+        S.value = !1;
     }
     const _ = () => {
-      const e = Array.from(a.value.parentNode.children).indexOf(
-        a.value
+      const e = Array.from(i.value.parentNode.children).indexOf(
+        i.value
       );
-      a.value.closest("table").querySelectorAll("tr").forEach((n) => {
+      i.value.closest("table").querySelectorAll("tr").forEach((n) => {
         const l = n.children[e].cloneNode(!0);
         l.innerText = "", n.insertBefore(l, n.children[e]);
       });
     }, I = () => {
-      const e = Array.from(a.value.parentNode.children).indexOf(
-        a.value
+      const e = Array.from(i.value.parentNode.children).indexOf(
+        i.value
       );
-      a.value.closest("table").querySelectorAll("tr").forEach((n) => {
+      i.value.closest("table").querySelectorAll("tr").forEach((n) => {
         const l = n.children[e].cloneNode(!0);
         l.innerText = "", n.insertBefore(l, n.children[e + 1]);
       });
     };
     function W(e) {
       const t = e.target.closest("td, th");
-      t && (e.preventDefault(), a.value = t, x.value = !0, D.value = e.pageX, q.value = e.pageY);
+      t && (e.preventDefault(), i.value = t, E.value = !0, g.value = e.pageX, y.value = e.pageY);
     }
     const B = () => {
-      const e = a.value, t = e.nextElementSibling;
+      const e = i.value, t = e.nextElementSibling;
       e && t && (e.colSpan = (e.colSpan || 1) + 1, e.innerHTML += " " + t.innerHTML, t.remove());
     }, Y = () => {
       var e, t;
-      (t = (e = a.value) == null ? void 0 : e.parentElement) == null || t.remove();
+      (t = (e = i.value) == null ? void 0 : e.parentElement) == null || t.remove();
     }, R = () => {
-      const e = Array.from(a.value.parentNode.children).indexOf(
-        a.value
+      const e = Array.from(i.value.parentNode.children).indexOf(
+        i.value
       );
-      a.value.closest("table").querySelectorAll("tr").forEach((n) => n.deleteCell(e));
+      i.value.closest("table").querySelectorAll("tr").forEach((n) => n.deleteCell(e));
     }, N = () => {
-      a.value.innerText = "";
+      i.value.innerText = "";
     };
     function K() {
-      const e = i.root.querySelectorAll("table"), t = e[e.length - 1], n = t.querySelectorAll("tr");
+      const e = a.root.querySelectorAll("table"), t = e[e.length - 1], n = t.querySelectorAll("tr");
       n.length > 1 ? t.deleteRow(n.length - 1) : t.remove();
     }
     function F() {
-      const e = i.root.querySelectorAll("table");
+      const e = a.root.querySelectorAll("table");
       e[e.length - 1].querySelectorAll("tr").forEach((n) => {
         const l = n.querySelectorAll("td, th");
         l.length > 0 && n.deleteCell(l.length - 1);
       });
     }
     function U() {
-      const e = i.root.querySelectorAll("table"), t = e[e.length - 1];
+      const e = a.root.querySelectorAll("table"), t = e[e.length - 1];
       t && t.remove();
     }
     const G = (e) => {
@@ -276,73 +276,73 @@ const le = (v, C) => {
       if (!t || t.rangeCount === 0) return;
       const l = t.getRangeAt(0).startContainer, o = l.nodeType === Node.TEXT_NODE ? l.parentElement : l, c = o == null ? void 0 : o.closest("td");
       if (!c) return;
-      const s = c.parentElement, d = s == null ? void 0 : s.closest("table");
-      if (!d) return;
-      const p = s === d.querySelector("tr:last-child"), m = c === s.querySelector("td:last-child");
-      p && m && (e.preventDefault(), H(1, L));
+      const s = c.parentElement, u = s == null ? void 0 : s.closest("table");
+      if (!u) return;
+      const m = s === u.querySelector("tr:last-child"), b = c === s.querySelector("td:last-child");
+      m && b && (e.preventDefault(), H(1, M));
     };
-    return S(() => {
-      window.addEventListener("click", () => x.value = !1);
+    return D(() => {
+      window.addEventListener("click", () => E.value = !1);
     }), J(() => {
-      window.removeEventListener("click", () => x.value = !1);
+      window.removeEventListener("click", () => E.value = !1);
     }), (e, t) => (ee(), Z("div", oe, [
-      b("div", {
+      v("div", {
         ref_key: "quillEditor",
-        ref: w,
+        ref: L,
         class: "quill-editor"
       }, null, 512),
-      z(b("div", {
+      z(v("div", {
         ref_key: "tableControls",
-        ref: k,
+        ref: T,
         class: "table-controls"
       }, [
-        b("button", {
+        v("button", {
           onClick: h(_, ["prevent"])
         }, "⬅ Col ➕ |"),
-        b("button", {
+        v("button", {
           onClick: h(I, ["prevent"])
         }, "➕ Col ➡")
       ], 512), [
-        [V, T.value]
+        [V, S.value]
       ]),
-      z(b("ul", {
+      z(v("ul", {
         ref_key: "contextMenu",
         ref: X,
         class: "context-menu",
-        style: te({
-          top: q.value,
-          left: D.value,
+        style: te([{
+          top: d.value === "mobile" ? y.value + 80 + "px" : d.value === "tablet" ? y.value + 150 + "px" : d.value === "laptop" ? y.value + 500 + "px" : y.value + 400 + "px",
+          left: d.value === "mobile" ? g.value + 80 + "px" : d.value === "tablet" ? g.value + 150 + "px" : d.value === "laptop" ? g.value + 100 + "px" : g.value + "px",
           position: "fixed",
           zIndex: 9999
-        })
+        }, { "background-color": "white", "border-radius": "8px", "box-shadow": "0 5px 15px rgba(0, 0, 0, 0.3)", "list-style": "none", "list-style-type": "none" }])
       }, [
-        b("li", {
+        v("li", {
           class: "cursor-pointer",
           onClick: h(B, ["prevent"])
         }, "Merge Cells"),
-        b("li", {
+        v("li", {
           class: "cursor-pointer",
           onClick: h(Y, ["prevent"])
         }, "Delete Row"),
-        b("li", {
+        v("li", {
           class: "cursor-pointer",
           onClick: h(R, ["prevent"])
         }, " Delete Column "),
-        b("li", {
+        v("li", {
           class: "cursor-pointer",
           onClick: h(N, ["prevent"])
         }, "Clear Cell")
       ], 4), [
-        [V, x.value]
+        [V, E.value]
       ])
     ]));
   }
-}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-abc13033"]]), ae = {
-  install(v) {
-    v.component("QuillEditor", ce);
+}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-84f9b4a7"]]), ie = {
+  install(f) {
+    f.component("QuillEditor", ce);
   }
 };
 export {
   ce as QuillEditor,
-  ae as default
+  ie as default
 };
