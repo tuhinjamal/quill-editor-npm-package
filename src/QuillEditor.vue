@@ -46,6 +46,9 @@
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         list-style: none;
         list-style-type: none;
+        text-align: left;
+        padding: 5px;
+        cursor: pointer;
       "
     >
       <li class="cursor-pointer" @click.prevent="mergeCells">Merge Cells</li>

@@ -314,7 +314,7 @@ const le = (f, w) => {
           left: d.value === "mobile" ? g.value + 80 + "px" : d.value === "tablet" ? g.value + 150 + "px" : d.value === "laptop" ? g.value + 100 + "px" : g.value + "px",
           position: "fixed",
           zIndex: 9999
-        }, { "background-color": "white", "border-radius": "8px", "box-shadow": "0 5px 15px rgba(0, 0, 0, 0.3)", "list-style": "none", "list-style-type": "none" }])
+        }, { "background-color": "white", "border-radius": "8px", "box-shadow": "0 5px 15px rgba(0, 0, 0, 0.3)", "list-style": "none", "list-style-type": "none", "text-align": "left", padding: "5px", cursor: "pointer" }])
       }, [
         v("li", {
           class: "cursor-pointer",
@@ -337,7 +337,7 @@ const le = (f, w) => {
       ])
     ]));
   }
-}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-84f9b4a7"]]), ie = {
+}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-eeff3ff4"]]), ie = {
   install(f) {
     f.component("QuillEditor", ce);
   }
