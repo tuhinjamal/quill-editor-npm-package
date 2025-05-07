@@ -23,20 +23,13 @@
       :style="{
         top:
           screenType === 'mobile'
-            ? contextMenuY + 80 + 'px'
+            ? contextMenuY + 20 + 'px'
             : screenType === 'tablet'
-            ? contextMenuY + 150 + 'px'
+            ? contextMenuY + 20 + 'px'
             : screenType === 'laptop'
-            ? contextMenuY + 500 + 'px'
-            : contextMenuY + 400 + 'px',
-        left:
-          screenType === 'mobile'
-            ? contextMenuX + 80 + 'px'
-            : screenType === 'tablet'
-            ? contextMenuX + 150 + 'px'
-            : screenType === 'laptop'
-            ? contextMenuX + 100 + 'px'
-            : contextMenuX + 'px',
+            ? contextMenuY + 20 + 'px'
+            : contextMenuY + 20 + 'px',
+        left: contextMenuX + 'px',
         position: 'fixed',
         zIndex: 9999,
       }"
