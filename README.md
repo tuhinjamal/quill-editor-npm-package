@@ -28,7 +28,7 @@ npm install @tuhinjamal/vue3-quill-editor
    import { createApp } from "vue";
    import App from "./App.vue";
    import Vue3QuillEditor from "@tuhinjamal/vue3-quill-editor";
-
+   import "quill/dist/quill.snow.css";
    const app = createApp(App);
    app.use(Vue3QuillEditor);
    app.mount("#app");

@@ -21,22 +21,8 @@
       ref="contextMenu"
       class="context-menu"
       :style="{
-        top:
-          screenType === 'mobile'
-            ? contextMenuY - 80 + 'px'
-            : screenType === 'tablet'
-            ? contextMenuY - 150 + 'px'
-            : screenType === 'laptop'
-            ? contextMenuY - 500 + 'px'
-            : contextMenuY - 400 + 'px',
-        left:
-          screenType === 'mobile'
-            ? contextMenuX - 80 + 'px'
-            : screenType === 'tablet'
-            ? contextMenuX - 150 + 'px'
-            : screenType === 'laptop'
-            ? contextMenuX - 100 + 'px'
-            : contextMenuX + 'px',
+        top: contextMenuY + 'px',
+        left: contextMenuX + 'px',
         position: 'fixed',
         zIndex: 9999,
       }"
@@ -212,17 +198,6 @@ onMounted(() => {
   };
   toolbarContainer.appendChild(insertColRightBtn);
 
-  // add button to toolbar delete row button
-  // const deleteRowBtn2 = document.createElement("button")
-
-  // deleteRowBtn2.title = "Delete Row"
-  // deleteRowBtn2.innerHTML = "&#7035;"
-  // deleteRowBtn2.onclick = e => {
-  //   e.preventDefault()
-  //   deleteRow()
-  // }
-  // toolbarContainer.appendChild(deleteRowBtn2)
-
   // add button to toolbar delete column button
   const deleteColBtn2 = document.createElement("button");
 
@@ -252,69 +227,6 @@ onMounted(() => {
   styleTables();
 });
 
-// ---- Table Insert Logic ----
-
-// const insertTable = async (noOfRows, noOfColumns, savedRange = null) => {
-//   const columnsInitialValue =
-//     typeof noOfColumns === "object" && "value" in noOfColumns
-//       ? noOfColumns.value
-//       : noOfColumns
-
-//   const form = ref({ rows: 2, columns: columnsInitialValue || 2 })
-
-//   try {
-//     await ElMessageBox({
-//       title: "Insert Table",
-//       message: () =>
-//         h("div", { style: "padding: 10px 0" }, [
-//           h(
-//             ElForm,
-//             { labelPosition: "top", size: "small" },
-//             () => [
-//               h(ElFormItem, { label: "Rows" }, () =>
-//                 h(ElInputNumber, {
-//                   modelValue: form.value.rows,
-//                   "onUpdate:modelValue": val => (form.value.rows = val),
-//                   min: 1,
-//                 }),
-//               ),
-//               h(ElFormItem, { label: "Columns" }, () =>
-//                 h(ElInputNumber, {
-//                   modelValue: form.value.columns,
-//                   "onUpdate:modelValue": val => {
-//                     form.value.columns = val
-//                     if (!columnSetOnce) {
-//                       initialColumns = val
-//                       columnSetOnce = true
-//                     }
-//                   },
-//                   min: 1,
-//                 }),
-//               ),
-//             ],
-//           ),
-//         ]),
-//       confirmButtonText: "Insert",
-//       cancelButtonText: "Cancel",
-//       beforeClose: (action, instance, done) => {
-//         if (action === "confirm" && (!form.value.rows || !form.value.columns)) {
-//           ElMessage.error("Please enter valid numbers.")
-
-//           return
-//         }
-//         done()
-//       },
-//     })
-
-//     const table = createTable(form.value.rows, form.value.columns)
-
-//     // insertNodeAtCursor(table)
-//     insertNodeAtCursor(table, savedRange)
-
-//     styleTables()
-//     noOfColumn.value = form.value.columns
-//   } catch {}
-// }
 const createCustomTableModal = (defaultRows = 2, defaultCols = 2) => {
   return new Promise((resolve, reject) => {
     const overlay = document.createElement("div");
@@ -762,13 +674,14 @@ td:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 10%);
   font-size: 12px;
   inline-size: 160px;
-  list-style: none;
+  list-style: none !important;
 }
 
 .context-menu li {
   padding: 10px;
   cursor: pointer;
   text-align: start;
+  list-style: none;
 }
 
 .context-menu li:hover {
