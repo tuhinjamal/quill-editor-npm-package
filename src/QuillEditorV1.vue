@@ -21,24 +21,9 @@
       ref="contextMenu"
       class="context-menu"
       :style="{
-        top:
-          screenType === 'mobile'
-            ? contextMenuY - 80 + 'px'
-            : screenType === 'tablet'
-            ? contextMenuY - 150 + 'px'
-            : screenType === 'laptop'
-            ? contextMenuY - 500 + 'px'
-            : contextMenuY - 400 + 'px',
-        left:
-          screenType === 'mobile'
-            ? contextMenuX - 80 + 'px'
-            : screenType === 'tablet'
-            ? contextMenuX - 150 + 'px'
-            : screenType === 'laptop'
-            ? contextMenuX - 100 + 'px'
-            : contextMenuX + 'px',
-        position: 'fixed',
-        zIndex: 9999,
+        top: contextMenuY - 400 + 'px',
+        left: contextMenuX - 400 + 'px',
+        position: 'absolute',
       }"
     >
       <li class="cursor-pointer" @click.prevent="mergeCells">Merge Cells</li>
@@ -52,35 +37,19 @@
 </template>
 
 <script setup>
+import {
+  ElForm,
+  ElFormItem,
+  ElInputNumber,
+  ElMessage,
+  ElMessageBox,
+} from "element-plus";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { onMounted, ref } from "vue";
+import { h, onMounted, ref, onUnmounted } from "vue";
 
 const props = defineProps(["modelValue", "Placeholder"]);
-
 const emit = defineEmits(["update:modelValue"]);
-
-// Setup
-const screenType = ref("desktop");
-
-const updateScreenType = () => {
-  const width = window.innerWidth;
-
-  if (width < 600) {
-    screenType.value = "mobile";
-  } else if (width >= 600 && width < 1024) {
-    screenType.value = "tablet";
-  } else if (width >= 1024 && width < 1440) {
-    screenType.value = "laptop";
-  } else {
-    screenType.value = "desktop";
-  }
-};
-
-onMounted(() => {
-  updateScreenType();
-  window.addEventListener("resize", updateScreenType);
-});
 
 const quillEditor = ref(null);
 const tableControls = ref(null);
@@ -100,6 +69,12 @@ const contextMenuX = ref(0);
 const contextMenuY = ref(0);
 
 // Example handler
+function onContextMenu(event) {
+  event.preventDefault();
+  contextMenuX.value = event.clientX;
+  contextMenuY.value = event.clientY;
+  showContextMenu.value = true;
+}
 onMounted(() => {
   quill = new Quill(quillEditor.value, {
     theme: "snow",
@@ -253,204 +228,63 @@ onMounted(() => {
 });
 
 // ---- Table Insert Logic ----
-
-// const insertTable = async (noOfRows, noOfColumns, savedRange = null) => {
-//   const columnsInitialValue =
-//     typeof noOfColumns === "object" && "value" in noOfColumns
-//       ? noOfColumns.value
-//       : noOfColumns
-
-//   const form = ref({ rows: 2, columns: columnsInitialValue || 2 })
-
-//   try {
-//     await ElMessageBox({
-//       title: "Insert Table",
-//       message: () =>
-//         h("div", { style: "padding: 10px 0" }, [
-//           h(
-//             ElForm,
-//             { labelPosition: "top", size: "small" },
-//             () => [
-//               h(ElFormItem, { label: "Rows" }, () =>
-//                 h(ElInputNumber, {
-//                   modelValue: form.value.rows,
-//                   "onUpdate:modelValue": val => (form.value.rows = val),
-//                   min: 1,
-//                 }),
-//               ),
-//               h(ElFormItem, { label: "Columns" }, () =>
-//                 h(ElInputNumber, {
-//                   modelValue: form.value.columns,
-//                   "onUpdate:modelValue": val => {
-//                     form.value.columns = val
-//                     if (!columnSetOnce) {
-//                       initialColumns = val
-//                       columnSetOnce = true
-//                     }
-//                   },
-//                   min: 1,
-//                 }),
-//               ),
-//             ],
-//           ),
-//         ]),
-//       confirmButtonText: "Insert",
-//       cancelButtonText: "Cancel",
-//       beforeClose: (action, instance, done) => {
-//         if (action === "confirm" && (!form.value.rows || !form.value.columns)) {
-//           ElMessage.error("Please enter valid numbers.")
-
-//           return
-//         }
-//         done()
-//       },
-//     })
-
-//     const table = createTable(form.value.rows, form.value.columns)
-
-//     // insertNodeAtCursor(table)
-//     insertNodeAtCursor(table, savedRange)
-
-//     styleTables()
-//     noOfColumn.value = form.value.columns
-//   } catch {}
-// }
-const createCustomTableModal = (defaultRows = 2, defaultCols = 2) => {
-  return new Promise((resolve, reject) => {
-    const overlay = document.createElement("div");
-
-    overlay.style.cssText = `
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.4);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 1000;
-    `;
-
-    const modal = document.createElement("div");
-
-    modal.setAttribute("tabindex", "0"); // so it can receive keydown
-    modal.style.cssText = `
-      background: white;
-      padding: 20px 20px 15px;
-      border-radius: 8px;
-      min-width: 300px;
-      max-width: 90vw;
-      position: relative;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    `;
-
-    modal.innerHTML = `
-      <button id="close-btn" style="
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        border: none;
-        background: none;
-        font-size: 18px;
-        cursor: pointer;
-      ">&times;</button>
-
-      <h3 style="margin-bottom: 10px;">Insert Table</h3>
-      <label>Rows: 
-        <input type="number" id="table-rows" min="1" value="${defaultRows}" 
-          style="margin-bottom: 10px; width: 100%; padding: 5px;">
-      </label><br/>
-      <label>Columns: 
-        <input type="number" id="table-cols" min="1" value="${defaultCols}" 
-          style="margin-bottom: 10px; width: 100%; padding: 5px;">
-      </label><br/>
-      <div style="text-align: right; margin-top: 10px;">
-        <button id="cancel-btn" style="
-          margin-right: 10px;
-          background-color: #f44336;
-          color: white;
-          border: none;
-          padding: 6px 12px;
-          border-radius: 4px;
-          cursor: pointer;
-        ">Cancel</button>
-        <button id="confirm-btn" style="
-          background-color: #4CAF50;
-          color: white;
-          border: none;
-          padding: 6px 12px;
-          border-radius: 4px;
-          cursor: pointer;
-        ">Insert</button>
-      </div>
-    `;
-
-    overlay.appendChild(modal);
-    document.body.appendChild(overlay);
-
-    const removeModal = () => {
-      document.body.removeChild(overlay);
-      modal.removeEventListener("keydown", handleKeyDown);
-    };
-
-    const rejectModal = () => {
-      removeModal();
-      reject("Modal closed or cancelled.");
-    };
-
-    const confirmInsert = () => {
-      const rows = parseInt(document.getElementById("table-rows").value, 10);
-      const cols = parseInt(document.getElementById("table-cols").value, 10);
-
-      if (isNaN(rows) || isNaN(cols) || rows <= 0 || cols <= 0) {
-        alert("Please enter valid numbers.");
-
-        return;
-      }
-
-      removeModal();
-      resolve({ rows, columns: cols });
-    };
-
-    // Bindings
-    overlay.querySelector("#close-btn").onclick = rejectModal;
-    overlay.querySelector("#cancel-btn").onclick = rejectModal;
-    overlay.querySelector("#confirm-btn").onclick = confirmInsert;
-
-    overlay.onclick = (e) => {
-      if (e.target === overlay) rejectModal();
-    };
-
-    // Focus modal container
-    setTimeout(() => modal.focus(), 0);
-
-    // Only catch Enter when inside modal
-    const handleKeyDown = (e) => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        confirmInsert();
-      }
-    };
-
-    modal.addEventListener("keydown", handleKeyDown);
-  });
-};
-
+// const insertTable = async (noOfRows, noOfColumns) => {
 const insertTable = async (noOfRows, noOfColumns, savedRange = null) => {
   const columnsInitialValue =
     typeof noOfColumns === "object" && "value" in noOfColumns
       ? noOfColumns.value
       : noOfColumns;
 
+  const form = ref({ rows: 2, columns: columnsInitialValue || 2 });
+
   try {
-    const form = await createCustomTableModal(2, columnsInitialValue || 2);
+    await ElMessageBox({
+      title: "Insert Table",
+      message: () =>
+        h("div", { style: "padding: 10px 0" }, [
+          h(ElForm, { labelPosition: "top", size: "small" }, () => [
+            h(ElFormItem, { label: "Rows" }, () =>
+              h(ElInputNumber, {
+                modelValue: form.value.rows,
+                "onUpdate:modelValue": (val) => (form.value.rows = val),
+                min: 1,
+              })
+            ),
+            h(ElFormItem, { label: "Columns" }, () =>
+              h(ElInputNumber, {
+                modelValue: form.value.columns,
+                "onUpdate:modelValue": (val) => {
+                  form.value.columns = val;
+                  if (!columnSetOnce) {
+                    initialColumns = val;
+                    columnSetOnce = true;
+                  }
+                },
+                min: 1,
+              })
+            ),
+          ]),
+        ]),
+      confirmButtonText: "Insert",
+      cancelButtonText: "Cancel",
+      beforeClose: (action, instance, done) => {
+        if (action === "confirm" && (!form.value.rows || !form.value.columns)) {
+          ElMessage.error("Please enter valid numbers.");
 
-    const table = createTable(form.rows, form.columns);
+          return;
+        }
+        done();
+      },
+    });
 
+    const table = createTable(form.value.rows, form.value.columns);
+
+    // insertNodeAtCursor(table)
     insertNodeAtCursor(table, savedRange);
 
     styleTables();
-    noOfColumn.value = form.columns;
-  } catch (err) {
-    console.log("Modal closed:", err);
-  }
+    noOfColumn.value = form.value.columns;
+  } catch {}
 };
 
 const createTable = (rows, cols) => {
@@ -610,7 +444,7 @@ const insertColRight = () => {
 
 // --- Context Menu Logic ---
 function handleContextMenu(e) {
-  const cell = e.target.closest("td, th");
+  const cell = e.target.closest("td");
   if (!cell) return;
 
   e.preventDefault();
