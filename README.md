@@ -1,7 +1,3 @@
-Here's a **README.md** template for your `@tuhinjamal/vue3-quill-editor` package. You can customize it further based on your preferences or specific features. This template covers basic installation, usage, features, and configuration.
-
----
-
 # Vue 3 Quill Editor
 
 A powerful and customizable Quill editor component for Vue 3. It provides table management features (like inserting and deleting rows/columns), context menus, and other enhancements to the Quill text editor.
