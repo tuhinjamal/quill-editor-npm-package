@@ -310,8 +310,8 @@ const le = (v, C) => {
         ref: X,
         class: "context-menu",
         style: te({
-          top: q.value + "px",
-          left: D.value + "px",
+          top: q.value,
+          left: D.value,
           position: "fixed",
           zIndex: 9999
         })
@@ -337,7 +337,7 @@ const le = (v, C) => {
       ])
     ]));
   }
-}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-ae21d8cc"]]), ae = {
+}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-abc13033"]]), ae = {
   install(v) {
     v.component("QuillEditor", ce);
   }

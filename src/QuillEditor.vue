@@ -21,8 +21,8 @@
       ref="contextMenu"
       class="context-menu"
       :style="{
-        top: contextMenuY + 'px',
-        left: contextMenuX + 'px',
+        top: contextMenuY,
+        left: contextMenuX,
         position: 'fixed',
         zIndex: 9999,
       }"
@@ -665,16 +665,19 @@ td:hover {
 }
 
 .context-menu {
-  position: absolute;
-  z-index: 1000;
-  padding: 0;
-  border: 1px solid #ccc;
-  margin: 0;
-  background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 10%);
-  font-size: 12px;
-  inline-size: 160px;
+  position: absolute !important;
+  z-index: 1000 !important;
+  padding: 0 !important;
+  border: 1px solid #ccc !important;
+  margin: 0 !important;
+  background: white !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 10%) !important;
+  font-size: 12px !important;
+  inline-size: 160px !important;
   list-style: none !important;
+}
+.context-menu ul {
+  list-style-type: none !important;
 }
 
 .context-menu li {
