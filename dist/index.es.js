@@ -1,11 +1,11 @@
-import { ref as p, onMounted as D, createElementBlock as J, openBlock as Z, createElementVNode as v, withDirectives as z, withModifiers as h, vShow as V, normalizeStyle as ee } from "vue";
-import te from "quill";
-const ne = (f, w) => {
+import { ref as p, onMounted as D, onUnmounted as J, createElementBlock as Z, openBlock as ee, createElementVNode as v, withDirectives as z, withModifiers as h, vShow as V, normalizeStyle as te } from "vue";
+import ne from "quill";
+const le = (f, w) => {
   const x = f.__vccOpts || f;
   for (const [k, d] of w)
     x[k] = d;
   return x;
-}, le = { class: "editor-container" }, oe = {
+}, oe = { class: "editor-container" }, re = {
   __name: "QuillEditor",
   props: ["modelValue", "Placeholder"],
   emits: ["update:modelValue"],
@@ -21,7 +21,7 @@ const ne = (f, w) => {
     let a;
     const M = p(0), S = p(!1), i = p(null), E = p(!1), g = p(0), y = p(0);
     D(() => {
-      a = new te(L.value, {
+      a = new ne(L.value, {
         theme: "snow",
         placeholder: x.Placeholder,
         modules: {
@@ -283,9 +283,9 @@ const ne = (f, w) => {
     };
     return D(() => {
       window.addEventListener("click", () => E.value = !1);
-    }), onUnmounted(() => {
+    }), J(() => {
       window.removeEventListener("click", () => E.value = !1);
-    }), (e, t) => (Z(), J("div", le, [
+    }), (e, t) => (ee(), Z("div", oe, [
       v("div", {
         ref_key: "quillEditor",
         ref: L,
@@ -309,7 +309,7 @@ const ne = (f, w) => {
         ref_key: "contextMenu",
         ref: X,
         class: "context-menu",
-        style: ee({
+        style: te({
           top: d.value === "mobile" ? y.value - 80 + "px" : d.value === "tablet" ? y.value - 150 + "px" : d.value === "laptop" ? y.value - 500 + "px" : y.value - 400 + "px",
           left: d.value === "mobile" ? g.value - 80 + "px" : d.value === "tablet" ? g.value - 150 + "px" : d.value === "laptop" ? g.value - 100 + "px" : g.value + "px",
           position: "fixed",
@@ -337,12 +337,12 @@ const ne = (f, w) => {
       ])
     ]));
   }
-}, re = /* @__PURE__ */ ne(oe, [["__scopeId", "data-v-3f2a8068"]]), ae = {
+}, ce = /* @__PURE__ */ le(re, [["__scopeId", "data-v-d59b4beb"]]), ie = {
   install(f) {
-    f.component("QuillEditor", re);
+    f.component("QuillEditor", ce);
   }
 };
 export {
-  re as QuillEditor,
-  ae as default
+  ce as QuillEditor,
+  ie as default
 };

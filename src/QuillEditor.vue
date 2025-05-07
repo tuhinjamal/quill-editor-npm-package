@@ -54,7 +54,7 @@
 <script setup>
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 
 const props = defineProps(["modelValue", "Placeholder"]);
 
